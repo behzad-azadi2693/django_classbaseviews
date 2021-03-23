@@ -7,12 +7,14 @@ from django.views.generic import (
         ListView, DetailView, FormView,
         CreateView, UpdateView, DeleteView
     )
-from .forms import TodoCreateForm
-from django.urls import reverse_lazy
+from .forms import TodoCreateForm, TodoCommentForm
+from django.urls import reverse_lazy, reverse
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic.dates import MonthArchiveView
+from django.views.generic.edit import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -46,10 +48,24 @@ class TodoListView(ListView):
     context_object_name = 'todos' #object_list
 
 
-class TodoDetailView(DetailView):
-    model = Todo 
+class TodoDetailView(LoginRequiredMixin, FormView, DetailView):
+    model = Todo
+    form_class = TodoCommentForm
     users = User.objects.all()
     extra_context = {'users':users}
+    login_url = 'accounts:login'
+    template_name = 'first/todo_detail.html' #first/todo_detal.html
+    context_object_name = 'todo' #object
+
+    def get_success_url(self): #back to the page for comment
+        return reverse('first:todo-detail', kwargs={'pk':self.object.pk})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form =self.get_form() 
+        if form.is_valid():
+            comment = Comment(todo=self.object, name=form.cleaned_data['name'], body=form.cleaned_data['body'])
+        return super().form_valid(form)
     '''
     querset = Todo.objects.filter(pulished=True)
     ......or......
@@ -58,10 +74,9 @@ class TodoDetailView(DetailView):
             return Todo.objects.filter(slug=self.kwargs['myslug'])
         else:
             pass
-    '''
-    template_name = 'first/todo_detail.html' #first/todo_detal.html
-    context_object_name = 'todo' #object 
-    '''--> path('<slug:myslug'/,...)
+
+    --> path('<slug:myslug'/,...)
+    
     >>>DEFINE WORKING WITH PK<<<
 
     slug_field = 'slug' #name in models

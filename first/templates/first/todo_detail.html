@@ -8,4 +8,16 @@
     {{todo.title}}
     <a href="{% url 'first:todo-delete' todo.pk%}" class="btn btn-info">delete</a>
     <a href="{% url 'first:todo-update' todo.pk%}" class="btn btn-success">update</a>
+
+    <hr>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="send" class="btn btn-primary">
+    </form>
+    <hr>
+    {% for cmt in object.tcomments.all %}
+        {{cmt.name}}
+        {{cmt.body}}
+    {% endfor %}
 {% endblock %}
