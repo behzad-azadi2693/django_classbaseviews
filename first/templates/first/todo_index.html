@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for todo in todos %}
+       <a href="{% url 'first:todo-deatil' todo.pk %}"> {{todo.title}} </a>
+       <hr>
+    {% endfor %}
+    {% for user in users %}
+    <a "> {{user.username}} </a>
+    <hr>
+    {% endfor %}
+{% endblock %}

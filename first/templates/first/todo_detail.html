@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for user in users %}
+<a> {{user.username}} </a>
+<hr>
+{% endfor %}
+    {{todo.title}}
+    <a href="{% url 'first:todo-delete' todo.pk%}" class="btn btn-info">delete</a>
+    <a href="{% url 'first:todo-update' todo.pk%}" class="btn btn-success">update</a>
+{% endblock %}

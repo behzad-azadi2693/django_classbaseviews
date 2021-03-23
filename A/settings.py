@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local
     'first',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+#accounts
+LOGIN_REDIRECT_URL = 'first:todo-list'
+LOGOUT_REDIRECT_URL = 'accounts:login'
+
+EMAI_BACKEND = 'django.core.mail.backends.smtp.EmailBackends',
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'joe.libral2693@gmail.com'
+EMAIL_HOST_PASSWORD = 'password_dariaphti_az_app'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'emai for reset password of my_site_name'
