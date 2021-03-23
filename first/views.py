@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.views.generic.dates import MonthArchiveView
 
 
 
@@ -107,3 +108,10 @@ class TodoUpdate(UpdateView):
     fieds = ('title',)
     template_name = 'first/todo_update.html'
     success_url = reverse_lazy('first:home')
+
+
+class MonthTodo(MonthArchiveView):
+    model = Todo
+    date_field = 'created'
+    month_format = '%m'
+    template_name = 'first/todo_month.html'

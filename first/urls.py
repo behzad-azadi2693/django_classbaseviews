@@ -12,4 +12,5 @@ urlpatterns = [
     path('todo-create/>', views.TodoCreate.as_view(), name='todo-create'),
     path('todo-delete/<int:pk>/', views.TodoDelete.as_view(), name='todo-delete'),
     path('todo-update/<int:pk>/', views.TodoUpdate.as_view(), name='todo-update'),
+    path('<int:year>/<int:month>/', views.MonthTodo.as_view(), name = 'month')<
 ]
