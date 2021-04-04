@@ -94,7 +94,7 @@ class TodoCreateForm(FormView):
         return super().form_valid(form)
 
     def create_todo(sefl, data): #this def we created
-        todo = Todo(title=data['title'], slug=slugify(data['title']))
+        todo = Todo(title=data['title'], slug=slugify(data['title'], owner=self.request.user))
         todo.save()
         messages.success(self.request, 'your todo add', 'success')
 
@@ -108,16 +108,20 @@ class TodoCreate(CreateView):
     def form_valid(self, form):
         todo = form.save(commit=False)
         todo.slug = slugify(form.cleaned_data['title'])
+        todo.owner = self.request.user
         messages.success(self.request, 'your todo add', 'success')
         return super().form_valid(form)
 
 
-class TodoDelete(DeleteView):
+class TodoDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Todo
     template_name = 'first/todo_delete.html'
     success_url = reverse_lazy('first:home')
 
-
+    def test_func(self):
+        obj = self.get_object()
+        obj.owner = self.request.user
+        
 class TodoUpdate(UpdateView):
     model = Todo
     fieds = ('title',)
