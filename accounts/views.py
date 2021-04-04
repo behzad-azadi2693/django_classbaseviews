@@ -30,3 +30,12 @@ class PasswordConfirm(PasswordResetConfirmView):
 
 class PasswordResetComplete(PasswordResetCompleteView):
     template_name = 'accounts/password_reset_complete.html'
+
+
+class UserProfile(generic.UpdateView):
+    model = User
+    template_name = 'polls/user.html'
+    fields = ['first_name', 'last_name'] 
+
+    def get_object(self):
+        return User.objects.get(username= self.request.user.username)
