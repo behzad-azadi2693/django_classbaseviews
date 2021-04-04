@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.views.generic.dates import MonthArchiveView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 
