@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Todo(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCAD)
     title = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     published = models.BooleanField(default=False)
@@ -15,7 +16,7 @@ class Todo(models.Model):
         
 class Comment(models.Model):
     todo = models.ForeignKey(Todo, on_delete=models.CASCADE, related_name='tcomments')
-    name = models.ForrignKey(User, on_delete=models.CASCADE, related_name='author')
+    name = models.CharField(max_length=200)
     body = models.TextField()
 
     def __str__(self):
