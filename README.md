@@ -1,5 +1,5 @@
 # CBV in django
-
+***
 ## we uses
 
 ```
@@ -10,3 +10,4 @@ uses mixins
 change password with email and CBV
 
 ```
+***
